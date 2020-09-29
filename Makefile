@@ -1,2 +1,2 @@
 deploy:
-	git subtree push --prefix Packages/UnityIr.FeatureManager origin upm
+	git subtree push --prefix Packages/unityir.feature-manager origin upm
