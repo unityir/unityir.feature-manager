@@ -68,7 +68,7 @@ namespace UnityIr.FeatureManager.Window
                 var definesString =
                     PlayerSettings.GetScriptingDefineSymbolsForGroup((BuildTargetGroup) target.Platform);
                 var allDefines = definesString.Split(';').Distinct().ToList();
-                if (target.isActive)
+                if (feature.isActive && target.isActive)
                 {
                     allDefines.Add(feature.symbol);
                 }
@@ -81,15 +81,15 @@ namespace UnityIr.FeatureManager.Window
                 PlayerSettings.SetScriptingDefineSymbolsForGroup((BuildTargetGroup) target.Platform, definesString);
 
                 AssetDatabase.SaveAssets();
-                if (target.isActive)
+                if (feature.isActive && target.isActive)
                 {
                     Debug.Log($"<color=#4A89DC><b>▶ {feature.title}: </b></color>" +
-                              "<color=#48CFAD><b>▶ Activated</b></color>");
+                              $"<color=#48CFAD><b>▶ Activated for {target.Platform}</b></color>");
                 }
                 else
                 {
                     Debug.Log($"<color=#4A89DC><b>▶ {feature.title}: </b></color>" +
-                              "<color=#DA4453><b>▶ Deactivated</b></color>");
+                              $"<color=#DA4453><b>▶ Deactivated for {target.Platform}</b></color>");
                 }
             }
         }
