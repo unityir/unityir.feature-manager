@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
@@ -63,34 +64,45 @@ namespace UnityIr.FeatureManager.Window
 
         private void SyncFeature(Feature feature)
         {
+            foreach (Platform platform in Enum.GetValues(typeof(Platform)))
+            {
+                SyncPlatform(feature, platform, false, false);
+            }
+
             foreach (var target in feature.targets)
             {
-                var definesString =
-                    PlayerSettings.GetScriptingDefineSymbolsForGroup((BuildTargetGroup) target.Platform);
-                var allDefines = definesString.Split(';').Distinct().ToList();
-                if (feature.isActive && target.isActive)
-                {
-                    allDefines.Add(feature.symbol);
-                }
-                else
-                {
-                    allDefines.Remove(feature.symbol);
-                }
+                SyncPlatform(feature, target.platform, feature.isActive && target.isActive);
+            }
+        }
 
-                definesString = string.Join(";", allDefines.Distinct().ToArray());
-                PlayerSettings.SetScriptingDefineSymbolsForGroup((BuildTargetGroup) target.Platform, definesString);
+        private void SyncPlatform(Feature feature, Platform platform, bool isActive, bool withLog = true)
+        {
+            var definesString =
+                PlayerSettings.GetScriptingDefineSymbolsForGroup((BuildTargetGroup) platform);
+            var allDefines = definesString.Split(';').Distinct().ToList();
+            if (isActive)
+            {
+                allDefines.Add(feature.symbol);
+            }
+            else
+            {
+                allDefines.Remove(feature.symbol);
+            }
 
-                AssetDatabase.SaveAssets();
-                if (feature.isActive && target.isActive)
-                {
-                    Debug.Log($"<color=#4A89DC><b>▶ {feature.title}: </b></color>" +
-                              $"<color=#48CFAD><b>▶ Activated for {target.Platform}</b></color>");
-                }
-                else
-                {
-                    Debug.Log($"<color=#4A89DC><b>▶ {feature.title}: </b></color>" +
-                              $"<color=#DA4453><b>▶ Deactivated for {target.Platform}</b></color>");
-                }
+            definesString = string.Join(";", allDefines.Distinct().ToArray());
+            PlayerSettings.SetScriptingDefineSymbolsForGroup((BuildTargetGroup) platform, definesString);
+            AssetDatabase.SaveAssets();
+
+            if (!withLog) return;
+            if (isActive)
+            {
+                Debug.Log($"<color=#4A89DC><b>▶ {feature.title}: </b></color>" +
+                          $"<color=#48CFAD><b>▶ Activated for {platform}</b></color>");
+            }
+            else
+            {
+                Debug.Log($"<color=#4A89DC><b>▶ {feature.title}: </b></color>" +
+                          $"<color=#DA4453><b>▶ Deactivated for {platform}</b></color>");
             }
         }
     }
