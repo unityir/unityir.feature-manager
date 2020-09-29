@@ -4,7 +4,6 @@ namespace UnityIr.FeatureManager.Models
 {
     public enum Platform
     {
-        All = 0,
         Standalone = BuildTargetGroup.Standalone,
         iOS = BuildTargetGroup.iOS,
         Android = BuildTargetGroup.Android,
