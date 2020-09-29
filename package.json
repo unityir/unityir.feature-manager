@@ -1,9 +1,9 @@
 {
-    "name": "unityir.feature-manager",
-    "displayName": "[UnityIr] Feature Manager",
-    "version": "0.1.0",
-    "unity": "2019.4",
-    "description": "Feature manager by Joyixir.",
-    "type": "library",
-    "hideInEditor": false
+  "name": "unityir.feature-manager",
+  "displayName": "[UnityIr] Feature Manager",
+  "version": "0.1.0",
+  "unity": "2019.4",
+  "description": "Feature manager by UnityIr",
+  "type": "tool",
+  "hideInEditor": false
 }
