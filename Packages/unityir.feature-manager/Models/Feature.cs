@@ -8,8 +8,9 @@ namespace UnityIr.FeatureManager.Models
     [CreateAssetMenu(fileName = "Feature", menuName = "UnityIr/FeatureManager/New Feature", order = 1)]
     public class Feature : ScriptableObject
     {
-        public string featureName;
-        public bool isGlobalActive = true;
+        public string title;
+        public string symbol;
+        public bool isActive = true;
         public List<BuildTarget> targets;
     }
 }
